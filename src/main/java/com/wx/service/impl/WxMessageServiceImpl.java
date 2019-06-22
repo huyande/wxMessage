@@ -2,20 +2,16 @@ package com.wx.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.dom4j.DocumentException;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wx.bean.Image;
 import com.wx.bean.ImageMessage;
 import com.wx.bean.TextMessage;
@@ -27,6 +23,8 @@ import com.wx.utils.WxUploadUtil;
 
 @Service
 public class WxMessageServiceImpl implements WxMessageService{
+	
+	private Map<String,Date> accessMap = new HashMap<String, Date>();
 
 	@Override
 	public Map<String, String> receptionMsg(HttpServletRequest request) {
@@ -56,9 +54,17 @@ public class WxMessageServiceImpl implements WxMessageService{
 				String PicUrl = msgXmlMap.get("PicUrl");
 				//下载图片到本地
 				String realpath = DownloadPicFromURLUtil.downloadPicture(PicUrl, wXfileImagePath+UUID.randomUUID().toString()+".png");
-				//获取到本地的下载的图片 
+				
 				//调用获取token 
-				String accessToken = WxAccessTokenUtil.getAccessToken(appid, secret);
+				//String accessToken = WxAccessTokenUtil.getAccessToken(appid, secret);
+				//Map<String,Date> accessMap = new HashMap<String, Date>();
+				WxAccessTokenUtil.iSaccessTokenTimeOut(accessMap,appid, secret);
+				String accessToken ="";
+				for(Map.Entry<String, Date> entry: accessMap.entrySet()) {
+					accessToken = entry.getKey();
+				}
+				System.out.println(accessToken);
+				//获取到本地的下载的图片 
 				String replacedUrl = UPLOAD_FOREVER_MEDIA_URL
 	                    .replace("ACCESS_TOKEN", accessToken)
 	                    .replace("TYPE", "image");

@@ -113,7 +113,7 @@ public class WxUploadUtil {
         String UPLOAD_FOREVER_MEDIA_URL = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
 
         String replacedUrl = UPLOAD_FOREVER_MEDIA_URL
-                    .replace("ACCESS_TOKEN", "22_JKrbsLl-BSQFpjIvtmIiTDnRvgdy4D5du_8pfiAZV4u3udhf3NSCbN-WWNVG6v5Fp_8X495JxcXjLSFjq9N-I68rkz8q1wKWBqhtjmSyotPvUyyNs-pf184bUB_mWkcB5J0hej5rPk5ufHo4BBNhAHASSE")
+                    .replace("ACCESS_TOKEN", "22_Qbaz3rCLrA13yhijuHif1YQHlMh3R2pZn3xSC-hCBkipsOpguCoccPbuioWIk8oQFdjV0RRQD7J8HzJDGKaSPjeAeYXrMY5nNw2tVOUO2cAtoTtMSexxUmaen7xjhKk7G1U-5GfxvPyCZojGFCIfAIAQNT")
                     .replace("TYPE", "image");
         String media_id = WxUploadUtil.uploadFile(replacedUrl,  
         		in,filename);
