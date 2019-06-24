@@ -38,6 +38,7 @@ public class WxMessageController {
 	public String message(HttpServletRequest request) {
 		Map<String, String> msgXmlMap = wxMessageService.receptionMsg(request);
 		String xmlMsg = wxMessageService.sendDealMsg(msgXmlMap,wxNumber,appid,secret,wXfileImagePath);
+		System.err.println(xmlMsg);
 		return xmlMsg;
 	}
 }

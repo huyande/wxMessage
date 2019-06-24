@@ -56,16 +56,18 @@ public class WxAccessTokenUtil {
 	}
 	
 	public static void main(String[] args) {
-		Date convertStrToDate;
-		try {
-			convertStrToDate = DateUtil.convertStrToDate("2019-6-22 13:49:47");
-			int secondsBetween = DateUtil.getSecondsBetween(convertStrToDate,new Date());
-			System.out.println(new Date());
-			System.out.println(convertStrToDate);
-			System.out.println(secondsBetween);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		/*
+		 * Date convertStrToDate; try { convertStrToDate =
+		 * DateUtil.convertStrToDate("2019-6-22 13:49:47"); int secondsBetween =
+		 * DateUtil.getSecondsBetween(convertStrToDate,new Date());
+		 * System.out.println(new Date()); System.out.println(convertStrToDate);
+		 * System.out.println(secondsBetween); } catch (ParseException e) {
+		 * e.printStackTrace(); }
+		 */
+		
+		
+		String accessToken = getAccessToken("wx541622ec4dee0592","9d11a5cddf9121244ff614095f2dc24b");
+		System.out.println(accessToken);
 		
 	}
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.dao.TAnswerMapper" >
+
+    <resultMap id="BaseResultMap" type="com.wx.bean.TAnswer" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="quest_id" property="questId" jdbcType="INTEGER" />
+        <result column="answer" property="answer" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, quest_id, answer
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_answer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectByQuestId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_answer
+        where quest_id = #{questId,jdbcType=INTEGER} ORDER BY answer
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_answer
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    
+    <delete id="deleteByQuestId" parameterType="java.lang.Integer" >
+        delete from t_answer
+        where quest_id = #{questId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.wx.bean.TAnswer" >
+        insert into t_answer (id, quest_id, answer)
+        values (#{id,jdbcType=INTEGER}, #{questId,jdbcType=INTEGER}, #{answer,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.wx.bean.TAnswer" >
+        update t_answer
+        set quest_id = #{questId,jdbcType=INTEGER},
+            answer = #{answer,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.dao.TQuestionMapper" >
+
+    <resultMap id="BaseResultMap" type="com.wx.bean.TQuestion" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="sub_id" property="subId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="original_content" property="originalContent" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, sub_id, content, original_content,create_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_question
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="searchQuestByContentLike" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from t_question
+        where content like concat('%',#{search,jdbcType=VARCHAR},'%') ORDER BY create_time
+    </select>
+    
+    <select id="searchQuestByContentLikeCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+        select count(1)
+        from t_question
+        where  content like concat('%',#{search,jdbcType=VARCHAR},'%')
+    </select>
+    
+    <select id="searchQuestBySubId" resultType="com.wx.bean.result.QuestionCount">
+        SELECT COUNT(1) count,sub_id subId FROM t_question GROUP BY sub_id 
+    </select>
+    
+    <select id="searchAllQuest" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM  t_question
+    </select>
+    
+    <select id="searchQuestBySubIdCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM  (SELECT COUNT(1) COUNT,sub_id subId FROM t_question GROUP BY sub_id) t
+    </select>
+    
+    <select id="countQuestBySubIdCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM  t_question where sub_id =#{subId,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectQuestBySubId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select 
+        <include refid="Base_Column_List" />
+        FROM  t_question 
+        where sub_id =#{subId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_question
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.wx.bean.TQuestion" useGeneratedKeys="true" keyProperty="id">
+        insert into t_question (id, sub_id, content,original_content)
+        values (#{id,jdbcType=INTEGER}, #{subId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},#{originalContent,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.wx.bean.TQuestion" >
+        insert into t_question
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="subId != null" >
+                sub_id,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="subId != null" >
+                #{subId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.wx.bean.TQuestion" >
+        update t_question
+        <set >
+            <if test="subId != null" >
+                sub_id = #{subId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.wx.bean.TQuestion" >
+        update t_question
+        set sub_id = #{subId,jdbcType=INTEGER},
+            content = #{content,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
