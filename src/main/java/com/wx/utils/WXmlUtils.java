@@ -70,7 +70,7 @@ public class WXmlUtils {
 		
 		XStream xstream = new XStream();//xstream.jar,xmlpull.jar
 		xstream.alias("xml", textMessage.getClass());//置换根节点
-		System.out.println(xstream.toXML(textMessage));
+		//System.out.println(xstream.toXML(textMessage));
 		return xstream.toXML(textMessage);
 		
 	}
